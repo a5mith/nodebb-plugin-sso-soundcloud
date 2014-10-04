@@ -1,10 +1,11 @@
 (function(module) {
     "use strict";
+
     var User = module.parent.require('./user'),
         meta = module.parent.require('./meta'),
         db = module.parent.require('../src/database'),
         passport = module.parent.require('passport'),
-        passportDropbox = require('passport-soundcloud').Strategy,
+        passportSoundcloud = require('passport-soundcloud').Strategy,
         fs = module.parent.require('fs'),
         path = module.parent.require('path'),
         nconf = module.parent.require('nconf');
@@ -15,15 +16,18 @@
             'icon': 'fa-soundcloud'
         }
     });
+
     var Soundcloud = {};
     Soundcloud.init = function(app, middleware, controllers, callback) {
         function render(req, res, next) {
             res.render('admin/plugins/sso-soundcloud', {});
         }
+
         app.get('/admin/plugins/sso-soundcloud', middleware.admin.buildHeader, render);
         app.get('/api/admin/plugins/sso-soundcloud', render);
         callback();
     }
+
     Soundcloud.getStrategy = function(strategies, callback) {
         meta.settings.get('sso-soundcloud', function(err, settings) {
             if (!err && settings['id'] && settings['secret']) {
