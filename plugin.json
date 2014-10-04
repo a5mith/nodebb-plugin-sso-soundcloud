@@ -2,7 +2,7 @@
 	"id": "nodebb-plugin-sso-soundcloud",
 	"name": "NodeBB Soundcloud SSO",
 	"description": "NodeBB Plugin that allows users to login/register via their Soundcloud account.",
-	"url": "https://github.com/julianlam/nodebb-plugin-sso-soundcloud",
+	"url": "https://github.com/a5mith/nodebb-plugin-sso-soundcloud",
 	"library": "./library.js",
 	"templates": "templates",
 	"hooks": [
