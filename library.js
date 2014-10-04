@@ -44,7 +44,7 @@
                     });
                 }));
                 strategies.push({
-                    name: 'soundcloud-oauth2',
+                    name: 'soundcloud',
                     url: '/auth/soundcloud',
                     callbackURL: '/auth/soundcloud/callback',
                     icon: 'fa-soundcloud'
