@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-sso-soundcloud",
-  "version": "0.1.1",
+  "version": "0.0.1",
   "description": "NodeBB SoundCloud SSO",
   "main": "library.js",
   "repository": {
@@ -26,5 +26,7 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "passport-soundcloud": ">= 0.0.0"  }
+    "passport-soundcloud": "~0.1.2"
+  }
+
 }

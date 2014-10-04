@@ -1,23 +1,26 @@
-<h1><i class="fa fa-facebook-square"></i>Soundcloud Social Authentication</h1>
+<h1><i class="fa fa-soundcloud"></i> Soundcloud Accounts Social Authentication</h1>
 <hr />
-
-<form>
-	<div class="alert alert-warning">
-		<p>
-			Create a <strong>SoundCloud Application</strong> via the
-			<a href="http://soundcloud.com/you/apps">SoundCloud Developers Page</a> and
-			then paste your application details here.
-		</p>
-		<br />
-		<input type="text" data-field="social:soundcloud:app_id" title="Application ID" class="form-control input-lg" placeholder="App ID"><br />
-		<input type="text" data-field="social:soundcloud:secret" title="Application Secret" class="form-control input-md" placeholder="App Secret"><br />
-	</div>
+<form class="sso-soundcloud">
+    <div class="alert alert-warning">
+        <p>
+            Create a <strong>Soundcloud API App</strong> via the
+            <a href="https://www.soundcloud.com/developers/apps">App Console</a> and then paste
+            your application details here.
+        </p>
+        <br />
+        <input type="text" name="id" title="Client ID" class="form-control input-lg" placeholder="Client ID"><br />
+        <input type="text" name="secret" title="Client Secret" class="form-control" placeholder="Client Secret">
+        <p class="help-block">
+            The appropriate "Redirect URI" is your NodeBB's URL with `/auth/soundcloud/callback` appended to it.
+        </p>
+    </div>
 </form>
-
-<button class="btn btn-lg btn-primary" id="save">Save</button>
-
+<button class="btn btn-lg btn-primary" type="button" id="save">Save</button>
 <script>
-	require(['forum/admin/settings'], function(Settings) {
-		Settings.prepare();
-	});
+    require(['settings'], function(Settings) {
+        Settings.load('sso-soundcloud', $('.sso-soundcloud'));
+        $('#save').on('click', function() {
+            Settings.save('sso-soundcloud', $('.sso-soundcloud'));
+        });
+    });
 </script>
