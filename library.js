@@ -36,7 +36,7 @@
                     clientSecret: settings['secret'],
                     callbackURL: nconf.get('url') + '/auth/soundcloud/callback'
                 }, function(accessToken, refreshToken, profile, done) {
-                    Soundcloud.login(profile.id, profile.displayName, profile.emails[0].value, function(err, user) {
+                    Soundcloud.login(profile.id, profile.username, profile.avatar_url, function(err, user) {
                         if (err) {
                             return done(err);
                         }
@@ -84,6 +84,13 @@
                             }
                             success(uid);
                         });
+                        // Save their photo, if present
+                        if (avatar_url && avatar_url.length > 0) {
+                            var photoUrl = avatar_url[0].value;
+                            photoUrl = path.dirname(photoUrl) + '/' + path.basename(photoUrl, path.extname(photoUrl)).slice(0, -6) + 'bigger' + path.extname(photoUrl);
+                            user.setUserField(uid, 'uploadedpicture', photoUrl);
+                            user.setUserField(uid, 'picture', photoUrl);
+                        }
                     } else {
                         success(uid); // Existing account -- merge
                     }
