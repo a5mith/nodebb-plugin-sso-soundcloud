@@ -54,8 +54,8 @@
             callback(null, strategies);
         });
     };
-    Soundcloud.login = function(soundcloudId, username, avatar, callback) {
-        Soundcloud.getUid(soundcloudId, function(err, uid) {
+    Soundcloud.login = function(soundcloudid, username, avatar, callback) {
+        Soundcloud.getUid(soundcloudid, function(err, uid) {
             if(err) {
                 return callback(err);
             }
@@ -71,8 +71,8 @@
                         return callback(err);
                     }
 // Save soundcloud-specific information to the user
-                    user.setUserField(uid, 'soundcloudId', soundcloudId);
-                    db.setObjectField('soundcloudId:uid', soundcloudId, uid);
+                    user.setUserField(uid, 'soundcloudid', soundcloudid);
+                    db.setObjectField('soundcloudid:uid', soundcloudid, uid);
 // Save their photo, if present
                     if (avatar && avatar.length > 0) {
                         var photoUrl = avatar[0].value;
@@ -88,7 +88,7 @@
         });
     };
     Soundcloud.getUid = function(souncloudId, callback) {
-        db.getObjectField('soundcloudId:uid', soundcloudId, function(err, uid) {
+        db.getObjectField('soundcloudid:uid', soundcloudid, function(err, uid) {
             if (err) {
                 return callback(err);
             }
@@ -105,9 +105,9 @@
     };
     Soundcloud.deleteUserData = function(uid, callback) {
         async.waterfall([
-            async.apply(User.getUserField, uid, 'soundcloudId'),
+            async.apply(User.getUserField, uid, 'soundcloudid'),
             function(oAuthIdToDelete, next) {
-                db.deleteObjectField('soundcloudId:uid', oAuthIdToDelete, next);
+                db.deleteObjectField('soundcloudid:uid', oAuthIdToDelete, next);
             }
         ], function(err) {
             if (err) {
