@@ -36,7 +36,7 @@
                     clientSecret: settings['secret'],
                     callbackURL: nconf.get('url') + '/auth/soundcloud/callback'
                 }, function(accessToken, refreshToken, profile, done) {
-                    console.log(profile, user);
+                    console.log(profile);
                     Soundcloud.login(profile.id, profile.username, function(err, user) {
                         if (err) {
                             return done(err);
