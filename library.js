@@ -54,8 +54,8 @@
             callback(null, strategies);
         });
     };
-    Soundcloud.login = function(soundcloudid, username, avatar, callback) {
-        Soundcloud.getUid(soundcloudid, function(err, uid) {
+    Soundcloud.login = function(soundcloudId, username, avatar, callback) {
+        Soundcloud.getUid(soundcloudId, function(err, uid) {
             if(err) {
                 return callback(err);
             }
@@ -71,8 +71,8 @@
                         return callback(err);
                     }
 // Save soundcloud-specific information to the user
-                    user.setUserField(uid, 'soundcloudid', soundcloudid);
-                    db.setObjectField('soundcloudid:uid', soundcloudid, uid);
+                    user.setUserField(uid, 'soundcloudId', soundcloudId);
+                    db.setObjectField('soundcloudId:uid', soundcloudId, uid);
 // Save their photo, if present
                     if (avatar && avatar.length > 0) {
                         var photoUrl = avatar[0].value;
