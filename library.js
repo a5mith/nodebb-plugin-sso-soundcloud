@@ -87,7 +87,7 @@
             }
         });
     };
-    Soundcloud.getUid = function(souncloudId, callback) {
+    Soundcloud.getUid = function(soundcloudid, callback) {
         db.getObjectField('soundcloudid:uid', soundcloudid, function(err, uid) {
             if (err) {
                 return callback(err);
