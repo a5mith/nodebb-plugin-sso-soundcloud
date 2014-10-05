@@ -39,8 +39,10 @@
                     console.log(profile);
                     Soundcloud.login(profile.id, profile.username, function(err, user) {
                         if (err) {
+                            console.log('error user info:', user)
                             return done(err);
                         }
+                        console.log('success info:', user)
                         done(null, user);
                     });
                 }));
@@ -68,8 +70,8 @@
 // New User
                 var success = function(uid) {
 // Save soundcloud-specific information to the user
-                    User.setUserField(uid, 'soundcloudId', soundcloudId);
-                    db.setObjectField('soundcloudId:uid', soundcloudId, uid);
+                    User.setUserField(uid, 'profile.id', soundcloudId);
+                    db.setObjectField('profile.id:uid', soundcloudId, uid);
                     callback(null, {
                         uid: uid
                     });
