@@ -37,12 +37,10 @@
                     callbackURL: nconf.get('url') + '/auth/soundcloud/callback'
                 }, function(accessToken, refreshToken, profile, done) {
                     console.log(profile);
-                    Soundcloud.login(profile.id, profile.username, function(err, user) {
+                    Soundcloud.login(profile.id, profile.username, profile.avatar, function(err, user) {
                         if (err) {
-                            console.log('error user info:', user)
                             return done(err);
                         }
-                        console.log('success info:', user)
                         done(null, user);
                     });
                 }));
@@ -56,8 +54,8 @@
             callback(null, strategies);
         });
     };
-    Soundcloud.login = function(soundcloudId, handle, email, callback) {
-        Soundcloud.getUid(soundcloudId, function(err, uid) {
+    Soundcloud.login = function(soundcloudid, username, avatar, callback) {
+        Soundcloud.getUidBySoundcloudId(soundcloudid, function(err, uid) {
             if(err) {
                 return callback(err);
             }
@@ -68,28 +66,23 @@
                 });
             } else {
 // New User
-                var success = function(uid) {
-// Save soundcloud-specific information to the user
-                    User.setUserField(uid, 'profile.id', soundcloudId);
-                    db.setObjectField('profile.id:uid', soundcloudId, uid);
-                    callback(null, {
-                        uid: uid
-                    });
-                };
-                User.getUidByEmail(email, function(err, uid) {
+                user.create({username: username}, function(err, uid) {
                     if(err) {
                         return callback(err);
                     }
-                    if (!uid) {
-                        User.create({username: handle, email: email}, function(err, uid) {
-                            if(err) {
-                                return callback(err);
-                            }
-                            success(uid);
-                        });
-                    } else {
-                        success(uid); // Existing account -- merge
+// Save soundcloud-specific information to the user
+                    user.setUserField(uid, 'soundcloudid', soundcloudid);
+                    db.setObjectField('soundcloudid:uid', soundcloudid, uid);
+// Save their avatar, if present
+                    if (avatar && avatar.length > 0) {
+                        var photoUrl = avatar[0].value;
+                        photoUrl = path.dirname(photoUrl) + '/' + path.basename(photoUrl, path.extname(photoUrl)).slice(0, -6) + 'bigger' + path.extname(photoUrl);
+                        user.setUserField(uid, 'uploadedpicture', photoUrl);
+                        user.setUserField(uid, 'picture', photoUrl);
                     }
+                    callback(null, {
+                        uid: uid
+                    });
                 });
             }
         });
