@@ -37,7 +37,7 @@
                     callbackURL: nconf.get('url') + '/auth/soundcloud/callback'
                 }, function(accessToken, refreshToken, profile, done) {
                     console.log(profile);
-                    Soundcloud.login(profile.id, profile.username, profile.avatar, function(err, user) {
+                    Soundcloud.login(profile.id, profile.displayName, profile.avatar, function(err, user) {
                         if (err) {
                             return done(err);
                         }
@@ -54,7 +54,7 @@
             callback(null, strategies);
         });
     };
-    Soundcloud.login = function(soundcloudid, username, avatar, callback) {
+    Soundcloud.login = function(soundcloudid, displayName, avatar, callback) {
         Soundcloud.getUid(soundcloudid, function(err, uid) {
             if(err) {
                 return callback(err);
@@ -66,7 +66,7 @@
                 });
             } else {
 // New User
-                user.create({username: username}, function(err, uid) {
+                user.create({username: displayName}, function(err, uid) {
                     if(err) {
                         return callback(err);
                     }
